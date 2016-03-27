@@ -53,19 +53,40 @@ error_val   = zeros(m, 1);
 
 % ---------------------- Sample Solution ----------------------
 
+%OPTIONAL - take K random samples, and average the errors
+k = 50
+
 % we are cross validating over the number of examples in the training set
 for i = 1:m
     
-    % find the thetas for the training set 
-    thisTheta = trainLinearReg(X(1:i, :),y(1:i),lambda);
+    sampler = [X,y];
+    xsampler = [Xval,yval];
+    error_train(i) = 0;
+    error_val(i) = 0;
     
-    %evaluate cost function (without regularisation) at this theta on the training set 
-    [thisJ, thisGrad] = linearRegCostFunction(X(1:i, :),y(1:i),thisTheta,0);
-    error_train(i) = thisJ;
-    %evaluate cost function (without regularisation) @thisTheta 
+    for n = 1:k        
     
-    [thisJ, thisGrad] = linearRegCostFunction(Xval,yval,thisTheta,0);    
-    error_val(i) = thisJ;
+        thisSample = datasample(sampler,i); %take i instances from the sample set
+        thisX = thisSample(:,1:end-1);
+        thisy = thisSample(:,end);
+        
+        
+        % find the thetas for the training set 
+        thisTheta = trainLinearReg(thisX,thisy,lambda);
+
+        %evaluate cost function (without regularisation) at this theta on the training set 
+        [thisJ, thisGrad] = linearRegCostFunction(thisX,thisy,thisTheta,0);
+        error_train(i) = error_train(i) + thisJ/k;
+        
+        %evaluate cost function (without regularisation) @thisTheta 
+        
+        thisxSample = datasample(xsampler,i); %take i instances from the sample set
+        xthisX = thisxSample(:,1:end-1);
+        xthisy = thisxSample(:,end);
+        [thisJ, thisGrad] = linearRegCostFunction(xthisX,xthisy,thisTheta,0);    
+        error_val(i) = error_val(i) + thisJ/k;
+    
+    end
     
 end
 
