@@ -53,8 +53,21 @@ error_val   = zeros(m, 1);
 
 % ---------------------- Sample Solution ----------------------
 
-
-
+% we are cross validating over the number of examples in the training set
+for i = 1:m
+    
+    % find the thetas for the training set 
+    thisTheta = trainLinearReg(X(1:i, :),y(1:i),lambda);
+    
+    %evaluate cost function (without regularisation) at this theta on the training set 
+    [thisJ, thisGrad] = linearRegCostFunction(X(1:i, :),y(1:i),thisTheta,0);
+    error_train(i) = thisJ;
+    %evaluate cost function (without regularisation) @thisTheta 
+    
+    [thisJ, thisGrad] = linearRegCostFunction(Xval,yval,thisTheta,0);    
+    error_val(i) = thisJ;
+    
+end
 
 
 
