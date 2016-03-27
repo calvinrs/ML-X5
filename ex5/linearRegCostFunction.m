@@ -19,13 +19,26 @@ grad = zeros(size(theta));
 %               You should set J to the cost and grad to the gradient.
 %
 
+%%% Adapted from ML-X3
+%calc the hypothesis function for all X;
+
+%Xbias = [ones(size(X,1), 1) X];
+
+%linear hypothesis - theta(0) + x*theta(1)
+H = X * theta;
+
+D = H - y; %diff versus observed
+S = D' * D; % an array transposed times the array gives the sum of squares
+
+%regularisation term
+unbiasedTheta = theta(2:size(theta,1),:);
+R = (lambda/(2*m)) * (unbiasedTheta' * unbiasedTheta);
+
+J = S/(2*m) + R;
 
 
 
-
-
-
-
+% GRADIENTS
 
 
 
