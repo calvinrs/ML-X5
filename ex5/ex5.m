@@ -218,3 +218,17 @@ end
 
 fprintf('Program paused. Press enter to continue.\n');
 pause;
+
+%optional parts
+
+%get best lambda
+[minval, mindex] = min(error_val);
+minlambda = lambda_vec(mindex);
+
+%evaluate on test set
+% find the thetas for the training set 
+thisTheta = trainLinearReg(X_poly,y,minlambda);
+[thisJ, thisGrad] = linearRegCostFunction(X_poly_test,ytest,thisTheta,0);
+
+fprintf('Cost function on test set:\n');
+fprintf('  %f  \n', thisJ);
