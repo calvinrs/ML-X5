@@ -41,7 +41,23 @@ error_val = zeros(length(lambda_vec), 1);
 
 
 
-
+for i = 1:length(lambda_vec)
+   
+    lambda = lambda_vec(i);
+    
+    % find the thetas for the training set 
+    thisTheta = trainLinearReg(X,y,lambda);
+    
+    %evaluate cost function (without regularisation) at this theta on the training set 
+    [thisJ, thisGrad] = linearRegCostFunction(X,y,thisTheta,0);
+    error_train(i) = thisJ;
+    %evaluate cost function (without regularisation) @thisTheta 
+    
+    [thisJ, thisGrad] = linearRegCostFunction(Xval,yval,thisTheta,0);    
+    error_val(i) = thisJ;    
+    
+    
+end
 
 
 
