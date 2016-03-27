@@ -40,7 +40,9 @@ J = S/(2*m) + R;
 
 % GRADIENTS
 
-
+thetaJtoM =  [0; unbiasedTheta]; % as theta(0) = 0; don't regularise bias term
+%gradients + regularisation term (0 for first coeff.)
+grad = ((1 /m) * (X' * D)) + ((lambda/m) * thetaJtoM);
 
 
 % =========================================================================
